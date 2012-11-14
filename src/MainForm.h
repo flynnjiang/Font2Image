@@ -315,7 +315,7 @@ namespace Font2Image {
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->Name = L"Form1";
-			this->Text = L"Font2Image v0.1 [Flynn]";
+			this->Text = L"Font2Image v0.1";
 			this->ContentGroup->ResumeLayout(false);
 			this->ContentGroup->PerformLayout();
 			this->StyleGroup->ResumeLayout(false);
