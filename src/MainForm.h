@@ -370,7 +370,8 @@ namespace Font2Image {
 			while ((new_right > new_left) && IsBitsEmpty(bmp, new_right))
 				new_right--;
 
-			if (new_left == new_right)
+			/* If the image is empty, don't strip it */
+			if (new_left == new_right && IsBitsEmpty(bmp, new_right))
 				return (gcnew System::Drawing::Bitmap(bmp));
 
 			new_left = Math::Max(new_left - 1, 0);
