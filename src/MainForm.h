@@ -111,7 +111,7 @@ namespace Font2Image {
 			// 
 			// ExportButton
 			// 
-			this->ExportButton->Location = System::Drawing::Point(406, 311);
+			this->ExportButton->Location = System::Drawing::Point(413, 311);
 			this->ExportButton->Name = L"ExportButton";
 			this->ExportButton->Size = System::Drawing::Size(90, 23);
 			this->ExportButton->TabIndex = 0;
@@ -201,7 +201,7 @@ namespace Font2Image {
 			this->CharMaxEdit->Name = L"CharMaxEdit";
 			this->CharMaxEdit->Size = System::Drawing::Size(50, 21);
 			this->CharMaxEdit->TabIndex = 9;
-			this->CharMaxEdit->Text = L"007F";
+			this->CharMaxEdit->Text = L"007E";
 			// 
 			// CharAnyEdit
 			// 
@@ -258,7 +258,7 @@ namespace Font2Image {
 			this->StyleGroup->Controls->Add(this->BackColorButton);
 			this->StyleGroup->Location = System::Drawing::Point(378, 12);
 			this->StyleGroup->Name = L"StyleGroup";
-			this->StyleGroup->Size = System::Drawing::Size(118, 205);
+			this->StyleGroup->Size = System::Drawing::Size(125, 205);
 			this->StyleGroup->TabIndex = 12;
 			this->StyleGroup->TabStop = false;
 			this->StyleGroup->Text = L"Style";
@@ -268,9 +268,9 @@ namespace Font2Image {
 			this->ReverseColorButton->AutoSize = true;
 			this->ReverseColorButton->Location = System::Drawing::Point(11, 152);
 			this->ReverseColorButton->Name = L"ReverseColorButton";
-			this->ReverseColorButton->Size = System::Drawing::Size(102, 16);
+			this->ReverseColorButton->Size = System::Drawing::Size(108, 16);
 			this->ReverseColorButton->TabIndex = 6;
-			this->ReverseColorButton->Text = L"Reverse Color";
+			this->ReverseColorButton->Text = L"Exchange Color";
 			this->ReverseColorButton->UseVisualStyleBackColor = true;
 			this->ReverseColorButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::ReverseColorButton_CheckedChanged);
 			// 
@@ -291,7 +291,7 @@ namespace Font2Image {
 			this->StatusBar->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->StatusProcessBar});
 			this->StatusBar->Location = System::Drawing::Point(0, 343);
 			this->StatusBar->Name = L"StatusBar";
-			this->StatusBar->Size = System::Drawing::Size(504, 22);
+			this->StatusBar->Size = System::Drawing::Size(515, 22);
 			this->StatusBar->SizingGrip = false;
 			this->StatusBar->TabIndex = 13;
 			this->StatusBar->Text = L"Status Bar";
@@ -305,7 +305,7 @@ namespace Font2Image {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(504, 365);
+			this->ClientSize = System::Drawing::Size(515, 365);
 			this->Controls->Add(this->StatusBar);
 			this->Controls->Add(this->StyleGroup);
 			this->Controls->Add(this->ContentGroup);
@@ -315,7 +315,7 @@ namespace Font2Image {
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->Name = L"Form1";
-			this->Text = L"Font2Image v0.1";
+			this->Text = L"Font2Image v0.2 [Flynn]";
 			this->ContentGroup->ResumeLayout(false);
 			this->ContentGroup->PerformLayout();
 			this->StyleGroup->ResumeLayout(false);
@@ -426,31 +426,50 @@ namespace Font2Image {
 			return strip_bmp;
 		}
 
+		System::String ^StripDupliChars(System::String ^str)
+		{
+			int i = 0;
+			System::String ^new_str = gcnew System::String(L"");
+
+			for (i = 0; i < str->Length; i++)
+				if (!new_str->Contains(str[i].ToString()))
+					new_str += str[i];
+
+			return new_str;
+		}
+
 		System::Void ExportAny(System::String ^dpath)
 		{
 			System::Drawing::Bitmap ^bmp;
 			System::String ^str = CharAnyEdit->Text;
 			int i = 0;
 
-			if (0 == str->Length)
+			if (System::String::IsNullOrEmpty(str))
 			{
 				System::Windows::Forms::MessageBox::Show(L"Content can't be null.");
 				return;
 			}
+
+			str = StripDupliChars(str);
 
 			StatusProcessBar->Maximum = str->Length;
 			StatusProcessBar->Step = 1;
 
 			for (i = 0; i < str->Length; i++)
 			{
-				bmp = Str2Bitmap(str[i].ToString());
-				bmp->Save(dpath + "\\0x" + ((int)(str[i])).ToString("X4") + ".bmp");
-				delete bmp;
+				if (!System::Char::IsControl(str[i]))
+				{
+					bmp = Str2Bitmap(str[i].ToString());
+					bmp->Save(dpath + "\\0x" + ((int)(str[i])).ToString("X4") + ".bmp", System::Drawing::Imaging::ImageFormat::Bmp);
+					delete bmp;
+				}
 
 				StatusProcessBar->PerformStep();
 			}
 			
 			StatusProcessBar->Value = 0;
+
+			delete str;
 		}
 
 		System::Void ExportRange(System::String ^dpath)
@@ -474,14 +493,20 @@ namespace Font2Image {
 				MaxChar = tmp;
 			}
 
+			if (!((MinChar > 0x001F && MaxChar < 0x007F) || MinChar > 0x9F))
+				System::Windows::Forms::MessageBox::Show(L"注意：Unicode值为007F，或 0000-001F，0080-009F 范围内的字符为控制字符，会被忽略。");
+
 			StatusProcessBar->Maximum = MaxChar - MinChar + 1;
 			StatusProcessBar->Step = 1;
 
 			for (ch = (char)MinChar; ch <= MaxChar; ch++)
 			{
-				bmp = Str2Bitmap(ch.ToString());
-				bmp->Save(dpath + "\\0x" + ((int)ch).ToString("X4") + ".bmp");
-				delete bmp;
+				if (!System::Char::IsControl(ch))
+				{
+					bmp = Str2Bitmap(ch.ToString());
+					bmp->Save(dpath + "\\0x" + ((int)ch).ToString("X4") + ".bmp", System::Drawing::Imaging::ImageFormat::Bmp);
+					delete bmp;
+				}
 
 				StatusProcessBar->PerformStep();
 			}
