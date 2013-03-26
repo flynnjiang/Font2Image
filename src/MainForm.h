@@ -66,6 +66,15 @@ namespace Font2Image {
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::CheckBox^  ReverseColorButton;
 
+	private: System::Windows::Forms::Label^  StripManualLable;
+	private: System::Windows::Forms::TextBox^  StripManualBox;
+
+
+	private: System::Windows::Forms::RadioButton^  StripManualButton;
+	private: System::Windows::Forms::RadioButton^  StripAutoButton;
+	private: System::Windows::Forms::Label^  label3;
+
+
 
 	protected: 
 
@@ -97,6 +106,11 @@ namespace Font2Image {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->StyleGroup = (gcnew System::Windows::Forms::GroupBox());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->StripManualLable = (gcnew System::Windows::Forms::Label());
+			this->StripManualBox = (gcnew System::Windows::Forms::TextBox());
+			this->StripManualButton = (gcnew System::Windows::Forms::RadioButton());
+			this->StripAutoButton = (gcnew System::Windows::Forms::RadioButton());
 			this->ReverseColorButton = (gcnew System::Windows::Forms::CheckBox());
 			this->AntialiasButton = (gcnew System::Windows::Forms::CheckBox());
 			this->StatusBar = (gcnew System::Windows::Forms::StatusStrip());
@@ -111,7 +125,7 @@ namespace Font2Image {
 			// 
 			// ExportButton
 			// 
-			this->ExportButton->Location = System::Drawing::Point(413, 311);
+			this->ExportButton->Location = System::Drawing::Point(421, 329);
 			this->ExportButton->Name = L"ExportButton";
 			this->ExportButton->Size = System::Drawing::Size(90, 23);
 			this->ExportButton->TabIndex = 0;
@@ -131,7 +145,7 @@ namespace Font2Image {
 			// 
 			// FrontColorButton
 			// 
-			this->FrontColorButton->Location = System::Drawing::Point(11, 63);
+			this->FrontColorButton->Location = System::Drawing::Point(11, 49);
 			this->FrontColorButton->Name = L"FrontColorButton";
 			this->FrontColorButton->Size = System::Drawing::Size(90, 23);
 			this->FrontColorButton->TabIndex = 3;
@@ -141,7 +155,7 @@ namespace Font2Image {
 			// 
 			// BackColorButton
 			// 
-			this->BackColorButton->Location = System::Drawing::Point(11, 105);
+			this->BackColorButton->Location = System::Drawing::Point(11, 80);
 			this->BackColorButton->Name = L"BackColorButton";
 			this->BackColorButton->Size = System::Drawing::Size(90, 23);
 			this->BackColorButton->TabIndex = 4;
@@ -156,7 +170,7 @@ namespace Font2Image {
 			this->PreviewLabel->Font = (gcnew System::Drawing::Font(L"ËÎÌו", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(134)));
 			this->PreviewLabel->ForeColor = System::Drawing::Color::Black;
-			this->PreviewLabel->Location = System::Drawing::Point(12, 234);
+			this->PreviewLabel->Location = System::Drawing::Point(12, 252);
 			this->PreviewLabel->Name = L"PreviewLabel";
 			this->PreviewLabel->Size = System::Drawing::Size(344, 100);
 			this->PreviewLabel->TabIndex = 5;
@@ -210,7 +224,7 @@ namespace Font2Image {
 			this->CharAnyEdit->Multiline = true;
 			this->CharAnyEdit->Name = L"CharAnyEdit";
 			this->CharAnyEdit->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
-			this->CharAnyEdit->Size = System::Drawing::Size(302, 86);
+			this->CharAnyEdit->Size = System::Drawing::Size(302, 99);
 			this->CharAnyEdit->TabIndex = 10;
 			// 
 			// ContentGroup
@@ -224,7 +238,7 @@ namespace Font2Image {
 			this->ContentGroup->Controls->Add(this->CharAnyButton);
 			this->ContentGroup->Location = System::Drawing::Point(14, 12);
 			this->ContentGroup->Name = L"ContentGroup";
-			this->ContentGroup->Size = System::Drawing::Size(342, 205);
+			this->ContentGroup->Size = System::Drawing::Size(342, 228);
 			this->ContentGroup->TabIndex = 11;
 			this->ContentGroup->TabStop = false;
 			this->ContentGroup->Text = L"Content";
@@ -251,6 +265,11 @@ namespace Font2Image {
 			// 
 			// StyleGroup
 			// 
+			this->StyleGroup->Controls->Add(this->label3);
+			this->StyleGroup->Controls->Add(this->StripManualLable);
+			this->StyleGroup->Controls->Add(this->StripManualBox);
+			this->StyleGroup->Controls->Add(this->StripManualButton);
+			this->StyleGroup->Controls->Add(this->StripAutoButton);
 			this->StyleGroup->Controls->Add(this->ReverseColorButton);
 			this->StyleGroup->Controls->Add(this->AntialiasButton);
 			this->StyleGroup->Controls->Add(this->FontButton);
@@ -258,15 +277,65 @@ namespace Font2Image {
 			this->StyleGroup->Controls->Add(this->BackColorButton);
 			this->StyleGroup->Location = System::Drawing::Point(378, 12);
 			this->StyleGroup->Name = L"StyleGroup";
-			this->StyleGroup->Size = System::Drawing::Size(125, 205);
+			this->StyleGroup->Size = System::Drawing::Size(133, 228);
 			this->StyleGroup->TabIndex = 12;
 			this->StyleGroup->TabStop = false;
 			this->StyleGroup->Text = L"Style";
 			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(9, 164);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(41, 12);
+			this->label3->TabIndex = 13;
+			this->label3->Text = L"Strip:";
+			// 
+			// StripManualLable
+			// 
+			this->StripManualLable->AutoSize = true;
+			this->StripManualLable->Location = System::Drawing::Point(101, 192);
+			this->StripManualLable->Name = L"StripManualLable";
+			this->StripManualLable->Size = System::Drawing::Size(17, 12);
+			this->StripManualLable->TabIndex = 11;
+			this->StripManualLable->Text = L"px";
+			// 
+			// StripManualBox
+			// 
+			this->StripManualBox->Enabled = false;
+			this->StripManualBox->Location = System::Drawing::Point(71, 183);
+			this->StripManualBox->MaxLength = 2;
+			this->StripManualBox->Name = L"StripManualBox";
+			this->StripManualBox->Size = System::Drawing::Size(24, 21);
+			this->StripManualBox->TabIndex = 10;
+			this->StripManualBox->Text = L"0";
+			// 
+			// StripManualButton
+			// 
+			this->StripManualButton->AutoSize = true;
+			this->StripManualButton->Location = System::Drawing::Point(53, 184);
+			this->StripManualButton->Name = L"StripManualButton";
+			this->StripManualButton->Size = System::Drawing::Size(14, 13);
+			this->StripManualButton->TabIndex = 9;
+			this->StripManualButton->UseVisualStyleBackColor = true;
+			this->StripManualButton->CheckedChanged += gcnew System::EventHandler(this, &Form1::StripManualButton_CheckedChanged);
+			// 
+			// StripAutoButton
+			// 
+			this->StripAutoButton->AutoSize = true;
+			this->StripAutoButton->Checked = true;
+			this->StripAutoButton->Location = System::Drawing::Point(53, 163);
+			this->StripAutoButton->Name = L"StripAutoButton";
+			this->StripAutoButton->Size = System::Drawing::Size(47, 16);
+			this->StripAutoButton->TabIndex = 8;
+			this->StripAutoButton->TabStop = true;
+			this->StripAutoButton->Text = L"Auto";
+			this->StripAutoButton->UseVisualStyleBackColor = true;
+			// 
 			// ReverseColorButton
 			// 
 			this->ReverseColorButton->AutoSize = true;
-			this->ReverseColorButton->Location = System::Drawing::Point(11, 152);
+			this->ReverseColorButton->Location = System::Drawing::Point(11, 119);
 			this->ReverseColorButton->Name = L"ReverseColorButton";
 			this->ReverseColorButton->Size = System::Drawing::Size(108, 16);
 			this->ReverseColorButton->TabIndex = 6;
@@ -279,7 +348,7 @@ namespace Font2Image {
 			this->AntialiasButton->AutoSize = true;
 			this->AntialiasButton->Checked = true;
 			this->AntialiasButton->CheckState = System::Windows::Forms::CheckState::Checked;
-			this->AntialiasButton->Location = System::Drawing::Point(11, 174);
+			this->AntialiasButton->Location = System::Drawing::Point(11, 141);
 			this->AntialiasButton->Name = L"AntialiasButton";
 			this->AntialiasButton->Size = System::Drawing::Size(78, 16);
 			this->AntialiasButton->TabIndex = 5;
@@ -289,9 +358,9 @@ namespace Font2Image {
 			// StatusBar
 			// 
 			this->StatusBar->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->StatusProcessBar});
-			this->StatusBar->Location = System::Drawing::Point(0, 343);
+			this->StatusBar->Location = System::Drawing::Point(0, 365);
 			this->StatusBar->Name = L"StatusBar";
-			this->StatusBar->Size = System::Drawing::Size(515, 22);
+			this->StatusBar->Size = System::Drawing::Size(523, 22);
 			this->StatusBar->SizingGrip = false;
 			this->StatusBar->TabIndex = 13;
 			this->StatusBar->Text = L"Status Bar";
@@ -305,7 +374,7 @@ namespace Font2Image {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(515, 365);
+			this->ClientSize = System::Drawing::Size(523, 387);
 			this->Controls->Add(this->StatusBar);
 			this->Controls->Add(this->StyleGroup);
 			this->Controls->Add(this->ContentGroup);
@@ -315,7 +384,7 @@ namespace Font2Image {
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^  >(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->Name = L"Form1";
-			this->Text = L"Font2Image v0.2 [Flynn]";
+			this->Text = L"Font2Image v0.3 [Flynn]";
 			this->ContentGroup->ResumeLayout(false);
 			this->ContentGroup->PerformLayout();
 			this->StyleGroup->ResumeLayout(false);
@@ -356,7 +425,7 @@ namespace Font2Image {
 			return true;
 		}
 
-		System::Drawing::Bitmap ^StripBitmap(System::Drawing::Bitmap ^bmp)
+		System::Drawing::Bitmap ^StripBitmap(System::Drawing::Bitmap ^bmp, int px)
 		{
 			System::Drawing::Bitmap ^new_bmp;
 			System::Drawing::Graphics ^graphics;
@@ -364,23 +433,31 @@ namespace Font2Image {
 			int new_right = bmp->Width - 1;
 			int new_width;
 
-			while ((new_left < new_right) && IsBitsEmpty(bmp, new_left))
-				new_left++;
+			if (px < 0) {
+				while ((new_left < new_right) && IsBitsEmpty(bmp, new_left))
+					new_left++;
 
-			while ((new_right > new_left) && IsBitsEmpty(bmp, new_right))
-				new_right--;
+				while ((new_right > new_left) && IsBitsEmpty(bmp, new_right))
+					new_right--;
+			} else {
+				new_left += (px+1);
+				new_right -= (px+1);
+			}
 
-			if (new_left == new_right)
-				return (gcnew System::Drawing::Bitmap(bmp));
+			// If the image is blank, don't strip it
+			if (new_left > new_right || (new_left == new_right && IsBitsEmpty(bmp, new_right))) {
+				new_left = 0;
+				new_right = bmp->Width - 1;
+				//return (gcnew System::Drawing::Bitmap(bmp));
+			}
 
 			new_left = Math::Max(new_left - 1, 0);
 			new_right = Math::Min(new_right + 1, bmp->Width - 1);
-
 			new_width = new_right - new_left + 1;
 			new_bmp = gcnew System::Drawing::Bitmap(new_width, bmp->Height, bmp->PixelFormat);
 
 			graphics = System::Drawing::Graphics::FromImage(new_bmp);
-			//graphics->CompositingMode = System::Drawing::Drawing2D::CompositingMode::SourceCopy;
+			graphics->CompositingMode = System::Drawing::Drawing2D::CompositingMode::SourceOver;
 			graphics->Clear(PreviewLabel->BackColor);
 			graphics->DrawImage(bmp, 0, 0,
 					System::Drawing::Rectangle(new_left, 0, new_width, bmp->Height),
@@ -400,6 +477,7 @@ namespace Font2Image {
 			System::Drawing::Graphics ^graphics;
 			System::Drawing::Brush ^brush;
 			int width = 0, height = 0;
+			int stripx = -1;
 			
 			size = StrSize(s, PreviewLabel->Font);
 			width = (int)System::Math::Ceiling(size.Width);
@@ -420,7 +498,12 @@ namespace Font2Image {
 			delete graphics;
 			delete brush;
 
-			strip_bmp = StripBitmap(bmp);
+			if (this->StripAutoButton->Checked)
+				stripx = -1;
+			else if (this->StripManualButton->Checked)
+				stripx = int::Parse(StripManualBox->Text, System::Globalization::NumberStyles::Integer);
+
+			strip_bmp = StripBitmap(bmp, stripx);
 			delete bmp;
 
 			return strip_bmp;
@@ -519,6 +602,17 @@ namespace Font2Image {
 	private: System::Void ExportButton_Click(System::Object^  sender, System::EventArgs^  e) {
 				 if (System::Windows::Forms::DialogResult::OK == FolderSelectDlg->ShowDialog())
 				 {
+					/* Check strip number first */
+					try {
+						if (StripManualBox->Enabled && int::Parse(StripManualBox->Text, System::Globalization::NumberStyles::Integer) < 0) {
+							System::Windows::Forms::MessageBox::Show(L"Invalid strip value! It should be an unsigned integer");
+							return;
+						}
+					} catch(...) {
+						System::Windows::Forms::MessageBox::Show(L"Invalid strip value! It should be an unsigned integer");
+						return;
+					}
+
 					 if (CharRangeButton->Checked)
 						ExportRange(FolderSelectDlg->SelectedPath);
 					 else if(CharAnyButton->Checked)
@@ -571,6 +665,14 @@ private: System::Void ReverseColorButton_CheckedChanged(System::Object^  sender,
 			 tmp = PreviewLabel->ForeColor;
 			 PreviewLabel->ForeColor = PreviewLabel->BackColor;
 			 PreviewLabel->BackColor = tmp;
+		 }
+
+
+private: System::Void StripManualButton_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if (StripManualButton->Checked)
+				 StripManualBox->Enabled = true;
+			 else
+				StripManualBox->Enabled = false;
 		 }
 };
 }
